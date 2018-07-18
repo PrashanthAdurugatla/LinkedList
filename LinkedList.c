@@ -7,9 +7,6 @@ typedef struct Node
 		struct Node *next;
 	}node;
 
-
-	
-
 node * insert(int key, node *head);
 int remove(int key, node *head);
 void search(int key, node *head);
@@ -29,7 +26,6 @@ void menu( )
 	printf("\n7. To Clear a List");
 	printf("\n-1. To Exit");
 }
-
 
 
 
