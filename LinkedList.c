@@ -7,8 +7,11 @@ typedef struct Node
 		struct Node *next;
 	}node;
 
+
+	
+
 node * insert(int key, node *head);
-int remove(int key, node *head);
+int removee(int key, node *head);
 void search(int key, node *head);
 node * append(int key, node*head);
 void print(node *head);
@@ -18,14 +21,15 @@ void clear(node * head);
 void menu( )
 {
 	printf("\n1. To Insert a Node");
-	printf("\n2. To Remove a Node");
-	printf("\n3. To Search a Node");
-	printf("\n4. To Append a Node");
+	printf("\t2. To Remove a Node");
+	printf("\t3. To Search a Node");
+	printf("\t4. To Append a Node");
 	printf("\n5. To Print a List");
-	printf("\n6. To Print a list in Reverse order");
-	printf("\n7. To Clear a List");
+	printf("\t6. To Print a list in Reverse order");
+	printf("\t\t7. To Clear a List");
 	printf("\n-1. To Exit");
 }
+
 
 
 
@@ -33,7 +37,7 @@ int main()
 {
 	
 	int value, key;
-	node *head;
+	node *head=NULL;
 	
 	menu();
 	while(1)
@@ -52,41 +56,43 @@ int main()
 			break;
 			
 			case 1:
-			printf("\nEnter a Node value to insert: ");
+			printf("\tEnter a Node value to insert: ");
 			scanf("%d",&key);
-			insert(key,head);
+			head=insert(key,head);
 			break;
 			
 			case 2:
-			printf("\nEnter a Node value to remove: ");
+			printf("\tEnter a Node value to remove: ");
 			scanf("%d",&key);
-			remove(key,head);
+			removee(key,head);
 			break;
 			
 			case 3:
-			printf("\nEnter a Node value to search: ");
+			printf("\tEnter a Node value to search: ");
 			scanf("%d",&key);
 			search(key,head);
 			break;
 			
 			case 4:
-			printf("\nEnter a Node value to be appended: ");
+			printf("\tEnter a Node value to be appended: ");
 			scanf("%d",&key);
-			append(key,head);	
+			head=append(key,head);	
 			break;
 			
 			case 5:
-			printf("\n Displaying Elements in the List: ");
+			printf("\t Displaying Elements in the List: ");
 			print(head);
 			break;
 			
 			case 6:
-			printf("\n Displaying Elements in Reverse Order: ");
+			printf("\t Displaying Elements in Reverse Order: ");
 			print_reverse(head);
+			if(!head)
+				printf("List is Empty");
 			break;
 			
 			case 7:
-			printf("\n Performing Clear operation on the List: ");
+			printf("\t Performing Clear operation on the List: ");
 			clear(head);
 			break;
 			
@@ -105,8 +111,13 @@ node * insert(int key, node *head)
 	a->next=NULL;
 	
 	if(!head)
+	{
 		head=a;
+		return head;
+	}	
 	
+	else
+	{
 		node *p=head;
 		node *q=NULL;
 		
@@ -129,10 +140,11 @@ node * insert(int key, node *head)
 		}
 
 	return head;
+	}
 }
 
 
-int remove(int key, node *head)
+int removee(int key, node *head)
 {
 	int result=-1;
 	if(!head)
@@ -157,7 +169,7 @@ int remove(int key, node *head)
 		else
 			q->next=p->next;
 			
-		delete p;
+		free (p);
 		result=0;
 	}
 	return result;	
@@ -165,22 +177,24 @@ int remove(int key, node *head)
 	
 void search(int key, node *head)
 {
-	if(!head)
-		printf("List is empty");
 		
-		
+	if(head)
+	{
 	node *a=head;
 	while(a)
 	{
-		if(a->i=key)
+		if(a->i==key)
 		{
-			printf("Key %d is Found in the List", &key);
-			return;
+			printf("\tKey  is Found in the List");
 		}
 	a=a->next;
 	}
+	}
 	
-	printf("Key not Found in the List");
+	else
+		printf("\nList is Empty");
+	return;
+	
 		
 	
 }
@@ -192,20 +206,23 @@ node * append(int key, node*head)
 	a->next=NULL;
 	
 	if(!head)
+	{
 		head=a;
-		
+		return head;
+	}
 	node *p = head;
 	
 	while(p->next)
 		p=p->next;
 	
 	p->next = a;
+	return head;
 }
 
 void print(node *head)
 {
 	if(!head)
-		printf("\nList is empty");
+		printf("List is empty");
 	
 	else
 	{
@@ -221,19 +238,9 @@ void print(node *head)
 
 void print_reverse(node *head)
 {
-	if(!head)
-		printf("\nList is empty");
-	
-	else
-	{
-		node *a = head;
-		while(a)
-		{
-			
-			a=a->next;
-			print_reverse(a);
-			printf("%d==>",a->i);
-		}
+	if(head){
+		print_reverse(head->next);
+		printf("%d==>",head->i);
 	}
 }
 
@@ -252,7 +259,7 @@ void clear(node * head)
 		while(head)
 		{
 			head=head->next;
-			delete a;
+			free (a);
 		}
 
 		printf("\nList is Cleared");
