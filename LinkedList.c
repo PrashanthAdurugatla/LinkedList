@@ -7,9 +7,6 @@ typedef struct Node
 		struct Node *next;
 	}node;
 
-
-	
-
 node * insert(int key, node *head);
 int removee(int key, node *head);
 void search(int key, node *head);
@@ -100,8 +97,6 @@ int main()
 			
 	}
 }
-
-
 
 node * insert(int key, node *head)
 {
